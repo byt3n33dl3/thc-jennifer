@@ -5,6 +5,12 @@
 
 Jennifer du' Casse is the most Advanced KeePass .kdbx cracking software. Support cracking KDBX3 (KeePass 2.x) and KDBX4. Designed to handle all versions of KeePass database files (.kdbx), including the newer 2.36+ versions that use the KDBX4 format.
 
+Please do not use in military or secret service organizations,
+                          or for illegal purposes.
+      (This is the wish of the author and non-binding. Many people working
+       in these organizations do not care for laws and ethics anyways.
+            You are not one of the "good" ones if you ignore this.)
+
 Unlike some existing tools, Jennifer can efficiently process both AES-KDF and Argon2-based key derivation methods.
 
 Supports all KeePass versions (including >=2.36)
@@ -42,6 +48,12 @@ Immediately reports when a password is successfully found
 Usage:
 
 ```
+jennifer [kdbx-file]
+jennifer [kdbx-file] [wordlist]
+jennifer [kdbx-file] [wordlist] -v
+```
+
+```
 ┌──(kali㉿kali)-[~]
 └─$ jennifer [kdbx-file]
 ```
@@ -62,11 +74,18 @@ Usage:
 
 ┌──(kali㉿kali)-[~]
 └─$ jennifer secret.kdbx rockyou.txt -v
-    _  _____ _      _      _  _____ _____ ____ 
-   / |/  __// \  /|/ \  /|/ \/    //  __//  __\
-   | ||  \  | |\ ||| |\ ||| ||  __\|  \  |  \/|
-/\_| ||  /_ | | \||| | \||| || |   |  /_ |    /
-\____/\____\\_/  \|\_/  \|\_/\_/   \____\\_/\_\
+                               ⠀⣀⣀⣀⣀⣀⣀⡀⢰⠆⠂⠄⡀⠀⠀⠀⠀⠀⠀
+⠁⠀⠀⠀⠀⠀⠈⢀⢠⠴⠒⢿⣉⣦⣱⡇⣧⢼⣯⣿⠲⣥⣀⡀⠁⠠⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⡀⢎⠰⣈⣵⣾⣿⣿⣿⣿⣿⣿⣿⣷⣿⣷⣯⡴⢆⡤⠀⡄⠀⠀
+⠀⠀⠀⠀⡀⢆⠱⣨⣶⠿⣿⠟⠋⣿⣿⣿⣿⣿⣿⣯⠛⠿⣿⣿⣷⣒⣩⠄⠀⠀
+⠀⠀⠐⠊⡴⢬⡾⠛⠁⠀⣿⣷⣼⣿⣿⣿⣿⣿⣿⣿⠀⠀⢈⠛⣻⡶⠶⠗⠂⠀
+⠀⠀⠐⢀⣴⠛⠀⠀⠀⠀⠹⣿⣿⣿⣿⣿⣿⣿⣿⠃⠀⡠⢀⣴⡿⠉⠡⠀⠀⠀
+⠀⠈⠀⠺⠕⠒⠂⠀⡀⠀⠀⠈⠙⠛⠻⠛⡛⠋⠀⠀⣠⣶⣿⠿⡣⠐⠀⠀⠀⠀
+⠃⢀⠀⠀⠀⠀⠀⠀⠐⠀⠠⢠⡴⢦⣤⣄⣶⡶⣾⢿⠛⠟⠂⠓⠀⠀⠀⠀⠀⠀
+⠀⠀⠈⠐⠀⠄⢀⠀⠀⠀⠒⠁⠊⠉⡇⢛⠾⠑⠁⠉⠀⠀⠠⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀
+⠀⠀⠐⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠂
                                                
 KeePass Password Cracker v1.0
 
@@ -77,4 +96,4 @@ KeePass Password Cracker v1.0
 ...
 [+] Password found: myp@ssword123
 
-For more, come to my collections of write-ups for real-world use cases on <https://byt3n33dl3.substack.com> if there's any security concern, please contact me at <byt3n33dl3@proton.me>
+For more, come to my collections of write-ups for real-world use cases on <https://byt3n33dl3.substack.com> if there's any security concern, please contact me at <mailto:byt3n33dl3@proton.me>
