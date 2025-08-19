@@ -2,12 +2,6 @@
  * J E N N I F E R
 */
 
-/**
- * A high-performance tool for cracking KeePass .kdbx
- * Author: byt3n33dl3
- * License: MIT
-*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -55,7 +49,8 @@ typedef struct {
 } password_result;
 
 typedef struct {
-    char *kdbx_path;
+    FILE *kdbx_file;
+    FILE *wordlist_file;
     char **passwords;
     int start_idx;
     int end_idx;
@@ -71,7 +66,7 @@ volatile uint64_t total_passwords = 0;
 time_t start_time;
 
 bool parse_kdbx_header(FILE *file, kdbx_header *header);
-bool attempt_password(const char *kdbx_path, const char *password);
+bool attempt_password(FILE *file, const kdbx_header *header, const char *password);
 void *crack_thread(void *arg);
 void print_progress(uint64_t current, uint64_t total, time_t start_time, bool verbose, const char *current_password);
 void handle_interrupt(int sig);
@@ -161,31 +156,37 @@ int main(int argc, char *argv[]) {
         }
     }
     
-    for (uint64_t i = 0; i < total_passwords && running; i++) {
-        const char *password = passwords[i];
-        attempts++;
+    pthread_t threads[NUM_THREADS];
+    crack_thread_args thread_args[NUM_THREADS];
+    password_result result = {NULL, 0};
+    pthread_mutex_t result_mutex = PTHREAD_MUTEX_INITIALIZER;
+    
+    uint64_t chunk_size = total_passwords / NUM_THREADS;
+    
+    for (int i = 0; i < NUM_THREADS; i++) {
+        thread_args[i].kdbx_file = kdbx_file;
+        thread_args[i].wordlist_file = wordlist_file;
+        thread_args[i].passwords = passwords;
+        thread_args[i].start_idx = i * chunk_size;
+        thread_args[i].end_idx = (i == NUM_THREADS - 1) ? total_passwords : (i + 1) * chunk_size;
+        thread_args[i].verbose = verbose;
+        thread_args[i].header = &header;
+        thread_args[i].result = &result;
+        thread_args[i].result_mutex = &result_mutex;
         
-        if (verbose) {
-            print_progress(attempts, total_passwords, start_time, true, password);
-        } else if (attempts % 100 == 0 || attempts == total_passwords) {
-            print_progress(attempts, total_passwords, start_time, false, NULL);
-        }
-        
-        if (attempt_password(kdbx_path, password)) {
-            printf("\n[+] Password found: %s\n", password);
-            fclose(kdbx_file);
-            fclose(wordlist_file);
-            
-            for (uint64_t j = 0; j < total_passwords; j++) {
-                free(passwords[j]);
-            }
-            free(passwords);
-            
-            return 0;
-        }
+        pthread_create(&threads[i], NULL, crack_thread, &thread_args[i]);
     }
     
-    printf("\n[!] Wordlist exhausted, no match found\n");
+    for (int i = 0; i < NUM_THREADS; i++) {
+        pthread_join(threads[i], NULL);
+    }
+    
+    if (result.password) {
+        printf("\n[+] Password found: %s\n", result.password);
+        free(result.password);
+    } else {
+        printf("\n[!] Wordlist exhausted, no match found\n");
+    }
     
     for (uint64_t i = 0; i < total_passwords; i++) {
         free(passwords[i]);
@@ -194,7 +195,45 @@ int main(int argc, char *argv[]) {
     fclose(kdbx_file);
     fclose(wordlist_file);
     
-    return 1;
+    return result.password ? 0 : 1;
+}
+
+void *crack_thread(void *arg) {
+    crack_thread_args *args = (crack_thread_args *)arg;
+    FILE *kdbx_file_thread = fopen(args->kdbx_file == stdin ? "/dev/stdin" : "/proc/self/fd/0", "rb");
+    
+    for (int i = args->start_idx; i < args->end_idx && running; i++) {
+        const char *password = args->passwords[i];
+        
+        pthread_mutex_lock(args->result_mutex);
+        attempts++;
+        
+        if (args->verbose) {
+            print_progress(attempts, total_passwords, start_time, true, password);
+        } else if (attempts % 100 == 0) {
+            print_progress(attempts, total_passwords, start_time, false, NULL);
+        }
+        
+        if (args->result->result) {
+            pthread_mutex_unlock(args->result_mutex);
+            break;
+        }
+        pthread_mutex_unlock(args->result_mutex);
+        
+        if (attempt_password(kdbx_file_thread, args->header, password)) {
+            pthread_mutex_lock(args->result_mutex);
+            if (!args->result->result) {
+                args->result->password = strdup(password);
+                args->result->result = 1;
+                running = 0;
+            }
+            pthread_mutex_unlock(args->result_mutex);
+            break;
+        }
+    }
+    
+    fclose(kdbx_file_thread);
+    return NULL;
 }
 
 bool parse_kdbx_header(FILE *file, kdbx_header *header) {
@@ -297,22 +336,12 @@ bool parse_kdbx_header(FILE *file, kdbx_header *header) {
     return false;
 }
 
-bool attempt_password(const char *kdbx_path, const char *password) {
-    FILE *pwd_file = fopen("/tmp/jennifer_pwd.txt", "w");
-    if (!pwd_file) {
-        return false;
-    }
-    
-    fprintf(pwd_file, "%s", password);
-    fclose(pwd_file);
-    
-    char cmd[2048];
-    snprintf(cmd, sizeof(cmd), "/bin/cat /tmp/jennifer_pwd.txt | keepassxc-cli open \"%s\" > /dev/null 2>&1", 
-             kdbx_path);
+bool attempt_password(FILE *file, const kdbx_header *header, const char *password) {
+    char cmd[1024];
+    sprintf(cmd, "echo \"%s\" | keepassxc-cli open -q %s > /dev/null 2>&1", 
+            password, "/proc/self/fd/0");
     
     int result = system(cmd);
-    unlink("/tmp/jennifer_pwd.txt");
-    
     return (result == 0);
 }
 
@@ -322,9 +351,9 @@ void print_progress(uint64_t current, uint64_t total, time_t start_time, bool ve
     
     if (elapsed_time <= 0) elapsed_time = 1;
     
-    int attempts_per_minute = (current * 60) / elapsed_time;
+    int attempts_per_second = current / elapsed_time;
     uint64_t remaining_attempts = total - current;
-    int estimated_time_remaining = attempts_per_minute > 0 ? (remaining_attempts * 60) / attempts_per_minute : 0;
+    int estimated_time_remaining = attempts_per_second > 0 ? remaining_attempts / attempts_per_second : 0;
     
     int eta_days = estimated_time_remaining / 86400;
     int eta_hours = (estimated_time_remaining % 86400) / 3600;
@@ -342,9 +371,9 @@ void print_progress(uint64_t current, uint64_t total, time_t start_time, bool ve
         sprintf(eta_str, "%ds", eta_seconds);
     }
     
-    printf("\r[+] Progress: %lu/%lu (%.2f%%) - %d p/m - ETA: %s", 
+    printf("\r[+] Progress: %lu/%lu (%.2f%%) - %d p/s - ETA: %s", 
            current, total, (float)current / total * 100, 
-           attempts_per_minute, eta_str);
+           attempts_per_second, eta_str);
     
     if (verbose && current_password) {
         printf(" - Current: %s", current_password);
@@ -354,7 +383,6 @@ void print_progress(uint64_t current, uint64_t total, time_t start_time, bool ve
 }
 
 void handle_interrupt(int sig) {
-    (void)sig; 
     printf("\n[!] Interrupted by user\n");
     running = 0;
 }
@@ -393,7 +421,7 @@ void print_banner() {
     printf("⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀\n");
     printf("⠀⠀⠐⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠂\n");
     printf("\nJennifer - KeePass Password Cracker v%s\n", VERSION);
-    printf("Current User: byt3n33dl3 | 2025-08-19 13:59:58 UTC\n\n");
+    printf("Current User: %s | %s UTC\n\n", "byt3n33dl3", "2025-08-19 13:22:23");
 }
 
 void print_usage(const char *program_name) {
