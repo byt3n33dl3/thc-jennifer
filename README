@@ -1,0 +1,80 @@
+                J E N N I F E R
+  (c) 2025 by byt3n33dl3 <https://github.com/byt3n33dl3>
+      Advanced KeePass Password Cracker,  1.1.0
+              Licensed under BSD-2.0
+
+Jennifer du' Casse is the most Advanced KeePass .kdbx cracking software. Support cracking KDBX3 (KeePass 2.x) and KDBX4. Designed to handle all versions of KeePass database files (.kdbx), including the newer 2.36+ versions that use the KDBX4 format.
+
+Unlike some existing tools, Jennifer can efficiently process both AES-KDF and Argon2-based key derivation methods.
+
+Supports all KeePass versions (including >=2.36)
+Works with both AES-KDF and Argon2 key derivation
+Multi-threaded for maximum performance
+Includes default wordlist for quick testing
+Progress tracking with accurate ETA
+Simple command-line interface
+
+Jennifer Operates by directly parsing the KDBX file structure to extract cryptographic parameters such as:
+
+Master seed
+Transform seed (KDBX3)
+Encryption IV
+Stream start bytes
+KDF parameters (including Argon2 parameters for KDBX4)
+
+The binary implements several key technologies:
+
+Multi-threaded password attempts for maximum performance
+Direct KDBX format parsing (both v3 and v4)
+Real-time progress statistics with ETA calculation
+Automatic detection of KeePass database version and encryption method
+Memory-efficient wordlist processing
+
+Functions:
+
+Parses the KDBX header to determine version and encryption parameters
+Loads the wordlist into memory for efficient processing
+Spawns multiple worker threads to attempt passwords in parallel
+Uses cryptographic operations to verify each password against the database
+Provides real-time statistics on cracking progress
+Immediately reports when a password is successfully found
+
+Usage:
+
+```
+┌──(kali㉿kali)-[~]
+└─$ jennifer [kdbx-file]
+```
+
+```
+┌──(kali㉿kali)-[~]
+└─$ jennifer [kdbx-file] [wordlist]
+```
+
+```
+┌──(kali㉿kali)-[~]
+└─$ jennifer [kdbx-file] [wordlist] -v
+```
+
+By default, Jennifer is already advanced enough for knowing a wordlist usage, without a custom worlist jennifer can only crack a possible 100 password. and the verbosity [-v] is going to be just for seeing Jennifer cracking processes.
+
+Usage:
+
+┌──(kali㉿kali)-[~]
+└─$ jennifer secret.kdbx rockyou.txt -v
+    _  _____ _      _      _  _____ _____ ____ 
+   / |/  __// \  /|/ \  /|/ \/    //  __//  __\
+   | ||  \  | |\ ||| |\ ||| ||  __\|  \  |  \/|
+/\_| ||  /_ | | \||| | \||| || |   |  /_ |    /
+\____/\____\\_/  \|\_/  \|\_/\_/   \____\\_/\_\
+                                               
+KeePass Password Cracker v1.0
+
+[+] KeePass database detected (version 4)
+[+] Using Argon2 key derivation
+[+] Starting password cracking with 14344391 passwords
+[+] Progress: 9532/14344391 (0.07%) - 1906 p/s - ETA: 2h 5m 12s
+...
+[+] Password found: myp@ssword123
+
+For more, come to my collections of write-ups for real-world use cases on <https://byt3n33dl3.substack.com> if there's any security concern, please contact me at <byt3n33dl3@proton.me>
