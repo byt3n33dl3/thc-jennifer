@@ -392,8 +392,8 @@ void print_banner() {
     printf("⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n");
     printf("⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀\n");
     printf("⠀⠀⠐⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠂\n");
-    printf("\nJennifer - KeePass Password Cracker v%s\n", VERSION);
-    printf("Current User: byt3n33dl3 | 2025-08-19 13:59:58 UTC\n\n");
+    printf("\nJennifer: KeePass Password Cracker v%s\n", VERSION);
+    printf("Current User: @byt3n33dl3, 2025 UTC\n\n");
 }
 
 void print_usage(const char *program_name) {
