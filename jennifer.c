@@ -1,11 +1,11 @@
-/**
+/*
  * J E N N I F E R
 */
 
 /**
  * A high-performance tool for cracking KeePass .kdbx
- * Author: byt3n33dl3
- * License: MIT
+ * Author: @byt3n33dl3 byt3n33dl3@proton.me
+ * License: --
 */
 
 #include <stdio.h>
