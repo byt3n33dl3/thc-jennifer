@@ -79,7 +79,8 @@ INSTALLATION:
 ``` 
 sudo git clone https://github.com/byt3n33dl3/thc-jennifer.git
 cd thc-jennifer 
-sudo make                                                      
+sudo make       
+sudo make install
 ```
 
 INTERFACE:
