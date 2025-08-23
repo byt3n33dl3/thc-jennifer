@@ -36,6 +36,10 @@ Real-time progress statistics with ETA calculation
 Automatic detection of KeePass database version and encryption method
 Memory-efficient wordlist processing
 
+Your pull request should fully describe the functionality you are adding/removing or the problem you are solving. Regardless of whether your patch modifies one line or one thousand lines, you must describe what has prompted and/or motivated the change.
+
+Solve only one problem in each pull request. If you're fixing a bug and adding a new feature, you need to make two separate pull requests. If you're fixing three bugs, you need to make three separate pull requests. If you're adding four new features, you need to make four separate pull requests.
+
 FUNCTIONS:
 
 Parses the KDBX header to determine version and encryption parameters
@@ -72,39 +76,15 @@ By default, Jennifer is already advanced enough for knowing a wordlist usage, wi
 
 INSTALLATION:
 
-```
-┌──(kali㉿kali)-[~]
-└─$ sudo git clone https://github.com/byt3n33dl3/thc-jennifer.git
-Cloning into 'thc-jennifer'...
-remote: Enumerating objects: 23, done.
-remote: Counting objects: 100% (23/23), done.
-remote: Compressing objects: 100% (18/18), done.
-remote: Total 23 (delta 3), reused 16 (delta 2), pack-reused 0 (from 0)
-Receiving objects: 100% (23/23), 12.57 KiB | 4.19 MiB/s, done.
-Resolving deltas: 100% (3/3), done.
-                                                                                                                                                                                                                                           
-┌──(kali㉿kali)-[~]
-└─$ cd thc-jennifer 
-                                                                                                                                                                        
+``` 
+sudo git clone https://github.com/byt3n33dl3/thc-jennifer.git
+cd thc-jennifer 
+sudo make                                                      
 ```
 
+INTERFACE:
+
 ```
-┌──(kali㉿kali)-[~/thc-jennifer]
-└─$ sudo make                                                      
-gcc -Wall -Wextra -O2 -pthread -c jennifer.c
-jennifer.c: In function ‘attempt_password’:
-jennifer.c:364:65: warning: unused parameter ‘header’ [-Wunused-parameter]
-  364 | bool attempt_password(const char *kdbx_path, const kdbx_header *header, const char *password) {
-      |                                              ~~~~~~~~~~~~~~~~~~~^~~~~~
-gcc -Wall -Wextra -O2 -pthread -o jennifer jennifer.o -lcrypto
-                                                                                                                                                                                                                                           
-┌──(kali㉿kali)-[~/thc-jennifer]
-└─$ sudo make install
-mkdir -p /usr/local/bin
-mkdir -p /usr/local/share/jennifer/src
-cp jennifer /usr/local/bin/
-cp src/wordlists.txt /usr/local/share/jennifer/src/
-                                                                                                                                                                                                                                           
 ┌──(kali㉿kali)-[~/thc-jennifer]
 └─$ jennifer                             
 
@@ -121,21 +101,20 @@ cp src/wordlists.txt /usr/local/share/jennifer/src/
 ⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀
 ⠀⠀⠐⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠂
 
-Jennifer - KeePass Password Cracker v1.0
-Current User: byt3n33dl3 | 2025-08-19 13:49:37 UTC
-
-Usage:
-  jennifer <kdbx-file>                 (uses default wordlist)
-  jennifer <kdbx-file> <wordlist>      (uses specified wordlist)
-  jennifer <kdbx-file> <wordlist> -v   (with verbose output)
-
-                                                                                                                                                                                                                                           
-┌──(kali㉿kali)-[~/thc-jennifer]
-└─$
+Jennifer: KeePass Password Cracker v1.0
+Current User: @byt3n33dl3, 2025 UTC
 ```
+
+COMMAND:
+
+jennifer <kdbx-file>                 (uses default wordlist)
+jennifer <kdbx-file> <wordlist>      (uses specified wordlist)
+jennifer <kdbx-file> <wordlist> -v   (with verbose output)
+
 
 USAGE EXECUTION:
 
+```
 ┌──(kali㉿kali)-[~/thc-jennifer]
 └─$ sudo jennifer recovery.kdbx src/wordlists.txt -v
 
@@ -184,7 +163,7 @@ Usage:
   jennifer <kdbx-file>                 (uses default wordlist)
   jennifer <kdbx-file> <wordlist>      (uses specified wordlist)
   jennifer <kdbx-file> <wordlist> -v   (with verbose output)
-
+```
 
 For more, come to my collections of write-ups for real-world use cases and write-ups on <https://byt3n33dl3.substack.com> if there's any security concern, please contact me at <mailto:byt3n33dl3@proton.me>
 
