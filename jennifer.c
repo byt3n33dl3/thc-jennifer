@@ -392,6 +392,7 @@ void print_banner() {
 
 void print_usage(const char *program_name) {
     printf("Usage:\n");
+    printf("\n");
     printf("  %s <kdbx-file>                 (uses default wordlist)  \n", program_name);
     printf("  %s <kdbx-file> <wordlist>      (uses specified wordlist)\n", program_name);
     printf("  %s <kdbx-file> <wordlist> -v   (with verbose output)    \n", program_name);

@@ -28,7 +28,7 @@ Please do not use in military or secret service organizations, or for illegal pu
 Unlike some existing tools, Jennifer can efficiently process both AES-KDF and Argon2-based key derivation methods.
 
 - Supports all KeePass versions (including >=2.36)
-- Works with both AES-KDF and Argon2 key derivation
+- Works with both _AES-KDF_ and Argon2 key derivation
 - Multi-threaded for maximum performance
 - Includes default wordlist for quick testing
 - Progress tracking with accurate ETA
@@ -59,6 +59,11 @@ _The binary implements several key technologies:_
 - Provides real-time statistics on cracking progress
 - Immediately reports when a password is successfully found
 
+## ISSUE
+
+- ASCII Banner Display
+- CPU Usage
+
 ## Pull-Request
 
 Your pull request should fully describe the functionality you are adding/removing or the problem you are solving. Regardless of whether your patch modifies one line or one thousand lines, you must describe what has prompted and/or motivated the change.
@@ -69,4 +74,4 @@ If you're adding four new features, you need to make four separate pull requests
 
 ## CONTACT
 
-For more, come to my collections of write-ups for real-world use cases and write-ups on <https://github.com/byt3n33dl3/thc-jennifer/blob/main/USAGE.md> if there's any security concern, please contact me at <byt3n33dl3@pm.me>
+For more, come to my collections of write-ups for real-world use cases and write-ups [here](https://github.com/byt3n33dl3/thc-jennifer/blob/main/USAGE.md) if there's any security concern, please contact me at <byt3n33dl3@pm.me>
