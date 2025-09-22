@@ -377,17 +377,16 @@ bool is_file(const char *path) {
 }
 
 void print_banner() {
-    printf("\n");
-    printf("       __   _______ .__   __. .__   __.  __   _______  _______ .______      \n");    
-    printf("      |  | |   ____||  \ |  | |  \ |  | |  | |   ____||   ____||   _  \     \n");     
-    printf("      |  | |  |__   |   \|  | |   \|  | |  | |  |__   |  |__   |  |_)  |    \n");
-    printf(".--.  |  | |   __|  |  . `  | |  . `  | |  | |   __|  |   __|  |      /     \n");    
-    printf("|  `--'  | |  |____ |  |\   | |  |\   | |  | |  |     |  |____ |  |\  \----.\n");
-    printf(" \______/  |_______||__| \__| |__| \__| |__| |__|     |_______|| _| `._____|\n");
+    printf("       __   _______ .__   __. .__   __.  __   _______  _______ .______      \n");
+    printf("      |  | |   ____||  \\ |  | |  \\ |  | |  | |   ____||   ____||   _  \\     \n");
+    printf("      |  | |  |__   |   \\|  | |   \\|  | |  | |  |__   |  |__   |  |_)  |    \n");
+    printf(".--.  |  | |   __|  |  . `  | |  . `  | |  | |   __|  |   __|  |      /     \n");
+    printf("|  `--'  | |  |____ |  |\\   | |  |\\   | |  | |  |     |  |____ |  |\\  \\----.\n");
+    printf(" \\______/  |_______||__| \\__| |__| \\__| |__| |__|     |_______|| _| `._____|\n");
     printf("                                                                            \n");
-    printf("\nThe most advanced password recovery v%s\n", VERSION);
-    printf("For all version of .kdbx (KeePass 2.X) by: @byt3n33dl3\n\n");
-    printf("                                  version: 1.1.0\n\n");
+    printf("The most advanced password recovery \n");
+    printf("For all version of .kdbx (KeePass 2.X) by: @byt3n33dl3\n");
+    printf("                                                                  version: 1.1.0\n");
 }
 
 void print_usage(const char *program_name) {

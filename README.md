@@ -61,7 +61,7 @@ _The binary implements several key technologies:_
 
 ## ISSUE
 
-- ASCII Banner Display
+- ASCII Banner Sys
 - CPU Usage
 
 ## Pull-Request
