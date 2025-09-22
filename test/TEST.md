@@ -64,7 +64,7 @@ For all version of .kdbx (KeePass 2.X) by: @byt3n33dl3
 [+] Password found: liverpool
 ```
 
-No longer than 26 Minutes,
+No longer than 25 Seconds,
 
 With verbosity:
 
