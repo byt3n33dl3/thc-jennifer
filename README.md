@@ -5,7 +5,8 @@
 
 <p align="center">
   <a href="https://github.com/byt3n33dl3/thc-jennifer/blob/main/USAGE.md">Wiki</a> •
-  <a href="https://github.com/byt3n33dl3/thc-jennifer/blob/main/INSTALL.md">Install</a>
+  <a href="https://github.com/byt3n33dl3/thc-jennifer/blob/main/INSTALL.md">Install</a> •
+  <a href="https://github.com/byt3n33dl3/thc-jennifer/blob/main/test/TEST.md">Exec</a>
 </p>
 
 <div align="center">
