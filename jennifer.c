@@ -386,7 +386,7 @@ void print_banner() {
     printf("                                                                            \n");
     printf("The most advanced password recovery \n");
     printf("For all version of .kdbx (KeePass 2.X) by: @byt3n33dl3\n");
-    printf("                                                                  version: 1.1.0\n");
+    printf("                                  version: 1.1.0      \n");
 }
 
 void print_usage(const char *program_name) {
